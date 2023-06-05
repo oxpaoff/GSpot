@@ -16,4 +16,9 @@ jobs:
         run: pip install flake8
       - name: Test with flake8
         run: |
-          cd backend/users/backend && python -m flake8
+          cd backend/users/backend && python -m flake8 
+      - name: Run docker-compose tests
+        run: docker-compose up --build \
+                               --abort-on-container-exit \
+                               --exit-code-from  web_users
+                 
