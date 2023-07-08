@@ -9,7 +9,7 @@ from common.services.jwt.users_payload import PayloadFactory
 from config.settings import redis_config
 from django.conf import settings
 from django.utils import timezone
-from utils.db.redis_client import RedisAccessClient, RedisClient, RedisRefreshClient
+from utils.db.redis_client import RedisAccessClient, RedisClient
 
 
 class Token(BaseToken, JWTMixin):
