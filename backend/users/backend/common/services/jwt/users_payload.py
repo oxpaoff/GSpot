@@ -20,7 +20,7 @@ class CommonUserPayload:
 
 
 class AdminPayload(BasePayload, CommonUserPayload):
-    def __init__(self, user: BaseAbstractUser):
+    def __init__(self, user: Admin):
         self.user = user
 
     def generate_payload(self):
@@ -43,7 +43,7 @@ class AdminPayload(BasePayload, CommonUserPayload):
 
 
 class DeveloperPayload(BasePayload, CommonUserPayload):
-    def __init__(self, user: BaseAbstractUser):
+    def __init__(self, user: CompanyUser):
         self.user = user
 
     def generate_payload(self):
@@ -67,7 +67,7 @@ class DeveloperPayload(BasePayload, CommonUserPayload):
 
 
 class CustomerPayload(BasePayload, CommonUserPayload):
-    def __init__(self, user: BaseAbstractUser):
+    def __init__(self, user: CustomerUser):
         self.user = user
 
     def generate_payload(self):
