@@ -15,6 +15,13 @@ class CommonUserPayload:
             "role": self.user._meta.app_label,
             "avatar": str(self.user.avatar),
             "permissions": self.user.permissions_codename,
+            "email": self.user.email,
+            "phone": self.user.phone,
+            "created_at": str(self.user.created_at),
+            "update_at": str(self.user.update_at),
+            "country": self.user.country,
+            "is_active": self.user.is_active,
+            "is_banned": self.user.is_banned,
         }
         return common_payload
 
@@ -23,14 +30,9 @@ class AdminPayload(BasePayload, CommonUserPayload):
     def __init__(self, user: Admin):
         self.user = user
 
-    def generate_payload(self):
+    def generate_payload(self) -> dict:
         common_payload = self.get_common_payload()
         admin_payload = {
-            "email": self.user.email,
-            "phone": self.user.phone,
-            "country": self.user.country,
-            "created_at": str(self.user.created_at),
-            "update_at": str(self.user.update_at),
             "is_superuser": self.user.is_superuser,
             "groups": list(self.user.groups.all()),
             "user_permissions": list(self.user.user_permissions.all()),
@@ -38,7 +40,6 @@ class AdminPayload(BasePayload, CommonUserPayload):
             "developer_permissions": list(self.user.developer_permissions.all()),
         }
         payload = common_payload | admin_payload
-
         return payload
 
 
@@ -46,23 +47,16 @@ class DeveloperPayload(BasePayload, CommonUserPayload):
     def __init__(self, user: CompanyUser):
         self.user = user
 
-    def generate_payload(self):
+    def generate_payload(self) -> dict:
         common_payload = self.get_common_payload()
         company = self.user.company if self.user.company is not None else {}
         developer_payload = {
-            "email": self.user.email,
-            "phone": self.user.phone,
-            "country": self.user.country,
-            "created_at": str(self.user.created_at),
-            "update_at": str(self.user.update_at),
-            "is_active": self.user.is_active,
             "is_superuser": self.user.is_superuser,
             "groups": list(self.user.groups.all()),
             "user_permissions": list(self.user.user_permissions.all()),
             "company": company,
         }
         payload = common_payload | developer_payload
-
         return payload
 
 
@@ -70,21 +64,14 @@ class CustomerPayload(BasePayload, CommonUserPayload):
     def __init__(self, user: CustomerUser):
         self.user = user
 
-    def generate_payload(self):
+    def generate_payload(self) -> dict:
         common_payload = self.get_common_payload()
-        common_payload["age"] = self.user.age
         customer_payload = {
-            "email": self.user.email,
-            "phone": self.user.phone,
-            "created_at": str(self.user.created_at),
-            "update_at": str(self.user.update_at),
             "friends": list(self.user.friends.all()),
             "birthday": str(self.user.birthday),
-            "is_active": self.user.is_active,
-            "country": self.user.country,
+            "age": self.user.age,
         }
         payload = common_payload | customer_payload
-
         return payload
 
 
